@@ -5,6 +5,7 @@ object mariano {
 	 
 	method comprar(_golosina) { golosinas.add(_golosina) }
 	
+	
 	method desechar (_golosina) { golosinas.remove(_golosina) }
 	
 	method golosinas() { return golosinas }
@@ -63,6 +64,10 @@ object mariano {
 	method tieneGolosinaDeSabor(_sabor) {
 		return golosinas.any({_golosina => _golosina.sabor() == _sabor})
 	}
+	
+	method comprarMuchas(_golosinas) {golosinas.addAll(_golosinas)}
+	
+	method baniar(unaGolosina) {self.comprar(new GolosinaBaniada(golosinaInterior=unaGolosina))}
 }
 
 

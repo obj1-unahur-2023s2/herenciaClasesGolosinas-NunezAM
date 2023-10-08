@@ -21,6 +21,24 @@ class Bombon {
 	method libreGluten() { return true }
 }
 
+class BombonDuro inherits Bombon {
+	
+	override method mordisco() {0.max(peso - 1)}
+	method gradoDeDureza() = if(peso > 12) 3 else if (peso >= 8) 2 else 1
+}
+
+/*var bombon = new Bombon() 
+bombon.mordisco()
+ El método está en la clase Bombón. El método lookup recorre esta clase y encuentra la definición del método.
+bombon.peso()
+ El método está en la clase Bombón. El método lookup recorre esta clase y encuentra la definición del método.
+bombon = new BombonDuro() 
+bombon.mordisco()
+ El método está en la clase Bombón Duro. El método lookup recorre esta clase.  
+bombon.peso()
+ El método esta en la superclase Bombón. El método lookup recorre la sub clase Bombón duro, no encontrando el método
+ peso(), por lo que lo busca en la super clase Bombón, encontrando la definición en esta última.  }
+*/
 
 class Alfajor {
 	var peso = 15
@@ -34,13 +52,42 @@ class Alfajor {
 
 class Caramelo {
 	var peso = 5
-
+	var sabor = frutilla
 	method precio() { return 12 }
 	method peso() { return peso }
 	method mordisco() { peso = peso - 1 }
-	method sabor() { return frutilla }
+	method sabor() { return sabor }
 	method libreGluten() { return true }
 }
+
+class CarameloConCorazonDeChocolate inherits Caramelo {
+	
+	override method mordisco() {
+		super()
+		sabor = chocolate
+	}
+	
+	override method precio() = super() + 1
+}
+
+/*var caramelo = new Caramelo() 
+caramelo.mordisco() 
+* El método está en la clase Caramelo. El método lookup recorre esta clase y encuentra la definición del método.
+caramelo.peso()
+* El método está en la clase Caramelo. El método lookup recorre esta clase y encuentra la definición del método. 
+caramelo.sabor() 
+* El método está en la clase Caramelo. El método lookup recorre esta clase y encuentra la definición del método.
+caramelo = new CarameloRelleno() 
+caramelo.mordisco() 
+* El método está en la clase CarameloConCorazonDeChocolate. El método lookup recorre esta clase y encuentra la definición del método, ejecutando
+* el super(), que es el método mordisco() de la super clase Caramelo, y luego cambiando el sabor a Chocolate.
+caramelo.peso() 
+* El método está en la super clase Caramelo. El método lookup recorre la sub clase CarameloConCorazonDeChocolate, no encontrando el método
+ peso(), por lo que lo busca en la super clase Caramelo, encontrando la definición en esta última. 
+caramelo.sabor() 
+* El método está en la super clase Caramelo. El método lookup recorre la sub clase CarameloConCorazonDeChocolate, no encontrando el método
+ sabor(), por lo que lo busca en la super clase Caramelo, encontrando la definición en esta última.  
+ */
 
 
 class Chupetin {
@@ -75,6 +122,34 @@ class Oblea {
 	method libreGluten() { return false }
 }
 
+class ObleaCrujiente inherits Oblea {
+	var mordiscos = 0
+	
+	override method mordisco() {
+		super()
+		mordiscos ++
+		if(mordiscos <= 3) {
+			peso -= 3
+		}
+	}
+	
+	method estaDebil() = mordiscos > 3
+}
+
+/*var oblea = new Oblea() 
+oblea.mordisco() 
+* El método está en la clase Oblea. El método lookup recorre esta clase y encuentra la definición del método.
+oblea.peso() 
+* El método está en la clase Oblea. El método lookup recorre esta clase y encuentra la definición del método.
+oblea = new ObleaCrujiente() 
+oblea.mordisco() 
+* El método está en la clase ObleaCrujiente. El método lookup recorre esta clase y encuentra la definición del método, ejecutando el método
+* de la super clase Oblea, y luego ejecutando el código que está en su defición del método.
+oblea.peso()  
+* El método está en la super clase Oblea. El método lookup recorre la clase y no encontrando la definición del método, por lo que sube a buscarla
+* en la super clase Oblea, encontrándola ahí.
+*/
+
 class Chocolatin {
 	// hay que acordarse de *dos* cosas, el peso inicial y el peso actual
 	// el precio se calcula a partir del precio inicial
@@ -90,6 +165,34 @@ class Chocolatin {
 	method libreGluten() { return false }
 
 }
+
+class ChocolatinVIP inherits Chocolatin {
+	
+	override method peso() = super() * (1 + self.humedad())
+	method humedad() = heladeraDeMariano.humedad()
+}
+
+class ChocolatinPremium inherits ChocolatinVIP {
+	
+	override method humedad() = super() / 2
+}
+
+object heladeraDeMariano {
+	var property humedad = 0
+}
+
+/*var chocolatin = new Chocolatin() 
+chocolatin.peso() 
+* El método está en la clase Chocolatin. El método lookup recorre esta clase y encuentra la definición del método.
+chocolatin = new ChocolatinVIP() 
+chocolatin.peso() 
+* El método está en la clase ChocolatinVIP. El método lookup recorre esta clase y encuentra la definición del método, ejecutando el método
+* de la super clase Chocolatin, y luego ejecutando el código que está en su defición del método.
+chocolatin = new ChocolatinPremium() 
+chocolatin.peso() 
+* El método está en la clase ChocolatinPremium. El método lookup recorre esta clase y encuentra la definición del método, ejecutando el método
+* de la super clase ChocolatinVIP, y luego ejecutando el código que está en su defición del método.
+*/
 
 class GolosinaBaniada {
 	var golosinaInterior
@@ -120,3 +223,13 @@ class Tuttifrutti {
 	method libreGluten() { return libreDeGluten }	
 	method libreGluten(valor) { libreDeGluten = valor }
 }
+
+
+
+
+
+
+
+
+
+
